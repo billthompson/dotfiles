@@ -1,4 +1,21 @@
-alias ll="ls -la"
 alias config='/usr/bin/git --git-dir=$HOME/.files/ --work-tree=$HOME'
-alias gcmsg="git commit -m"
 
+alias ll="ls -la"
+
+# Bundler Aliases
+alias bx="bundle exec"
+alias bxr="bundle exec rake"
+alias bxc="bundle exec rails c"
+
+# Docker Aliases
+alias dc="docker-compose"
+alias dm="docker-machine"
+alias dsa="docker stop \$(docker ps -a -q)"
+
+# Git Aliases
+alias gcmsg="git commit -m"
+alias glb="git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))' | head"
+
+# Misc Aliases
+alias allergies="lynx -dump http://scripts.kxan.com/wp_embeds/weather/allergy/allergy_output_v2.html"
+alias weather="curl http://wttr.in/aus && curl http://wttr.in/cedar_park"
