@@ -3,7 +3,7 @@ Repo structure taken from https://developer.atlassian.com/blog/2016/02/best-way-
 
 # Setup
 1. Add the aliases to your ~/.bashrc:
-`source $HOME/.aliases`
+`source $HOME/.files/.aliases`
 
 2. Reload your session
 
