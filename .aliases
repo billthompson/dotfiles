@@ -10,7 +10,15 @@ alias bxc="bundle exec rails c"
 # Docker Aliases
 alias dc="docker-compose"
 alias dm="docker-machine"
+# Stop all containers
 alias dsa="docker stop \$(docker ps -a -q)"
+# List all exited containers
+alias dle="docker ps -aq -f status=exited"
+# Remove stopped containers
+alias drs="docker ps -aq --no-trunc -f status=exited | xargs docker rm"
+# Remove dangling containers
+alias drd="docker images -q --filter dangling=true | xargs docker rmi"
+
 
 # Git Aliases
 alias gl='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
