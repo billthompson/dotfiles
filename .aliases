@@ -28,3 +28,16 @@ alias glb="git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) 
 # Misc Aliases
 alias allergies="lynx -dump http://scripts.kxan.com/wp_embeds/weather/allergy/allergy_output_v2.html"
 alias weather="curl http://wttr.in/aus && curl http://wttr.in/cedar_park"
+
+# TSH
+alias tsh-login-int="tsh-login \"integration\""
+alias tsh-login-stg="tsh-login \"staging\""
+
+function tsh-login() {
+  tsh login --proxy=teleport.${1}.zone --auth=OktaSAML
+}
+
+function tsh-connect() {
+  local node=$(tsh ls | awk 'NR==3{print $1; exit}')
+  tsh ssh -t container-jump@${=node}
+}  
