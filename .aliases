@@ -5,6 +5,8 @@ alias ll="ls -la"
 # bcloud Aliases
 # List preprovisioned clusters
 alias blp='./bcloud clusters list --all | grep RUNNING | awk '\''$NF == "-"'\'''
+# List building clusters
+alias blb="./bcloud clusters list --all | grep BUILDING"
 
 # Bundler Aliases
 alias bx="bundle exec"
