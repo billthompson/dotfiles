@@ -2,6 +2,10 @@ alias config='/usr/bin/git --git-dir=$HOME/.files/.git --work-tree=$HOME/.files'
 
 alias ll="ls -la"
 
+# bcloud Aliases
+# List preprovisioned clusters
+alias blp='./bcloud clusters list --all | grep RUNNING | awk '\''$NF == "-"'\'''
+
 # Bundler Aliases
 alias bx="bundle exec"
 alias bxr="bundle exec rake"
