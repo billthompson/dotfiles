@@ -7,11 +7,15 @@ alias ll="ls -la"
 alias blp='./bcloud clusters list --all | grep RUNNING | awk '\''$NF == "-"'\'''
 # List building clusters
 alias blb="./bcloud clusters list --all | grep BUILDING"
+# bcloud running - names only
+alias brn="./bcloud running --format '{{.Names}}' | sort | grep -Ev 'connect-proxy|nomad_init'"
 
 # Bundler Aliases
 alias bx="bundle exec"
 alias bxr="bundle exec rake"
 alias bxc="bundle exec rails c"
+alias b1="bundle _1.17.3_"
+alias bx1="bundle _1.17.3_ exec"
 
 # Docker Aliases
 alias dc="docker-compose"
@@ -47,3 +51,27 @@ function tsh-connect() {
   local node=$(tsh ls | awk 'NR==3{print $1; exit}')
   tsh ssh -t container-jump@${=node}
 }  
+
+function update_container() {
+  echo "Updating ${1}"
+  ./bcloud stop ${1} && ./bcloud pull ${1} && ./bcloud start ${1}
+}
+
+# update_containers auth bmp theme-registry storefront customer channel-service bigpay
+function update_containers() {
+  for var in "$@"
+  do
+    update_container "$var"
+  done
+}
+
+function reset_containers() {
+  for svc in "$@"
+  do
+    ./bcloud remove "$svc"; ./bcloud start "$svc"
+  done
+}
+
+function create_cloud_scratches_link() {
+  ln -s ~/Library/Mobile\ Documents/com~apple~CloudDocs/Rubymine/scratches cloud-scratches
+}
