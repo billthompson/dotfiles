@@ -2,6 +2,12 @@ alias config='/usr/bin/git --git-dir=$HOME/.files/.git --work-tree=$HOME/.files'
 
 alias ll="ls -la"
 
+##
+# Kubernetes
+alias k="kubectl"
+
+alias circle="CIRCLECI_CLI_SKIP_UPDATE_CHECK=1 circleci"
+
 # bcloud Aliases
 # List preprovisioned clusters
 alias blp='./bcloud clusters list --all | grep RUNNING | awk '\''$NF == "-"'\'''
@@ -9,6 +15,8 @@ alias blp='./bcloud clusters list --all | grep RUNNING | awk '\''$NF == "-"'\'''
 alias blb="./bcloud clusters list --all | grep BUILDING"
 # bcloud running - names only
 alias brn="./bcloud running --format '{{.Names}}' | sort | grep -Ev 'connect-proxy|nomad_init'"
+alias buc="./bcloud clusters list --all | awk '\$8 ~ /^-/' | sort -k 3"
+alias watch_clusters="watch -n 30 './bcloud clusters list --all | grep BUILDING | wc -l | xargs -I % say \"% clusters building\"'"
 
 # Bundler Aliases
 alias bx="bundle exec"
@@ -34,6 +42,7 @@ alias drd="docker images -q --filter dangling=true | xargs docker rmi"
 alias gl='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 alias gcmsg="git commit -m"
 alias glb="script -q /dev/null git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))' < /dev/null | head"
+alias grbic="GIT_EDITOR="code --wait" grbi"
 
 # Misc Aliases
 alias allergies="lynx -dump http://scripts.kxan.com/wp_embeds/weather/allergy/allergy_output_v2.html"
@@ -68,10 +77,19 @@ function update_containers() {
 function reset_containers() {
   for svc in "$@"
   do
-    ./bcloud remove "$svc"; ./bcloud start "$svc"
+    ./bcloud remove "$svc"; ./bcloud pull "$svc"; ./bcloud start "$svc"
   done
 }
 
 function create_cloud_scratches_link() {
   ln -s ~/Library/Mobile\ Documents/com~apple~CloudDocs/Rubymine/scratches cloud-scratches
+}
+
+function check_service_health() {
+  for cluster in "$@"
+  do 
+    echo "## $cluster "
+    ./bcloud ssh cdvm --cluster="$cluster" < ./tmp/health_check.sh 
+    echo "\n\n"
+  done
 }
