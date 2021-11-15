@@ -2,9 +2,14 @@ alias config='/usr/bin/git --git-dir=$HOME/.files/.git --work-tree=$HOME/.files'
 
 alias ll="ls -la"
 
+alias scratch_dir="~/Library/Mobile\ Documents/com~apple~CloudDocs/Rubymine/scratches"
+
 ##
 # Kubernetes
+# https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
+#
 alias k="kubectl"
+complete -F __start_kubectl k
 
 alias circle="CIRCLECI_CLI_SKIP_UPDATE_CHECK=1 circleci"
 
@@ -42,7 +47,7 @@ alias drd="docker images -q --filter dangling=true | xargs docker rmi"
 alias gl='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 alias gcmsg="git commit -m"
 alias glb="script -q /dev/null git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))' < /dev/null | head"
-alias grbic="GIT_EDITOR="code --wait" grbi"
+alias grbic='GIT_EDITOR="code --wait" grbi'
 
 # Misc Aliases
 alias allergies="lynx -dump http://scripts.kxan.com/wp_embeds/weather/allergy/allergy_output_v2.html"
@@ -92,4 +97,12 @@ function check_service_health() {
     ./bcloud ssh cdvm --cluster="$cluster" < ./tmp/health_check.sh 
     echo "\n\n"
   done
+}
+
+function force_nuke() {
+  yes 'Burn it all down!' | ./bcloud clusters nuke $1
+}
+
+function k_context() {
+  kubectl config use-context "gke_bc-cloud-vm-infra-${1}_us-central1-f_cloud-vm-infrastructure"
 }
