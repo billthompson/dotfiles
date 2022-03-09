@@ -9,12 +9,17 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'arcticicestudio/nord-vim'
 Plug 'preservim/nerdtree'
 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 " Telescope requires plenary to function
 Plug 'nvim-lua/plenary.nvim'
 " The main Telescope plugin
 Plug 'nvim-telescope/telescope.nvim'
 " An optional plugin recommended by Telescope docs
 Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make' }
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " initialize plugin system
 call plug#end()
@@ -33,6 +38,8 @@ lua require('bulletbill')
 
 let NERDTreeShowHidden=1
 
+let g:airline_powerline_fonts = 1
+
 " User Customizations
 syntax on
 colorscheme nord
@@ -41,6 +48,19 @@ colorscheme nord
 let g:mapleader = ','
 
 nnoremap <leader>n :NERDTreeFocus<CR>
+
+" Telescope
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Get out of insert mode more easily
+imap jj <Esc>
+
+" Sort words in a line - https://stackoverflow.com/a/1329899
+:vnoremap <F2> d:execute 'normal a' . join(sort(split(getreg('"'))), ' ')<CR>
+
 
 set nocompatible            " disable compatibility to old-time vi
 set showmatch               " show matching brackets.
