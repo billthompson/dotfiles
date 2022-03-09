@@ -10,8 +10,8 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     "bash",
     "dockerfile",
-    "erb",
     "go",
+    "hcl",
     "html",
     "java",
     "javascript",
@@ -22,11 +22,11 @@ require'nvim-treesitter.configs'.setup {
     "ruby",
     "rust",
     "scala",
-    "scss"
+    "scss",
     "toml",
     "tsx",
-    "yaml",
+    "yaml"
   },
 }
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.tsx.used_by = { "javascript", "typescript.tsx" }
+local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
+ft_to_parser.tsx = "javascript"

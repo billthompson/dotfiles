@@ -66,7 +66,7 @@ set nocompatible            " disable compatibility to old-time vi
 set showmatch               " show matching brackets.
 set relativenumber                  
 set wildmode=longest,list   " get bash-like tab completions
-set cc=85                   " set an 80 column border for good coding style
+set cc=85                   " set an column border for long lines 
 
 " Indenting
 set tabstop=2
