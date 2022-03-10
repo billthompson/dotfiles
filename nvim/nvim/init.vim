@@ -27,7 +27,6 @@ call plug#end()
 lua require('bulletbill')
 
 
-
 ""
 " Plugin Config
 ""

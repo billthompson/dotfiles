@@ -8,7 +8,7 @@ Repo structure taken from https://developer.atlassian.com/blog/2016/02/best-way-
   1. `echo "source $HOME/.aliases" > $HOME/.zshrc`
   1. `source ~/.zshrc`
 1. Setup nvim
-  1. `stow -t ~/.config nvim`
+  1. `stow --no-folding -v --restow -t ~/.config nvim` - this allows vim-plug to work in directory without symlinks.
   1. Install plugins after opening nvim via `:PlugInstall` 
 1. Setup tmux
   1. `stow -t ~ tmux`
