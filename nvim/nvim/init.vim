@@ -23,6 +23,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdcommenter'
 
 " initialize plugin system
 call plug#end()
