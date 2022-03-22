@@ -3,16 +3,19 @@ SESSION=`basename $PWD`
 
 tmux -2 new-session -d -s $SESSION
 
-tmux rename-window -t $SESSION vim
-tmux send-keys -t 0 "nvim ." Enter
-tmux split-window -h
+tmux rename-window -t $SESSION ide
+tmux send-keys -t 0 "nvim -p . ~/Projects/scratches" Enter
+# tmux resize-pane -R 30
+# tmux split-window -h
 tmux select-pane -t 0
-tmux resize-pane -R 30
-tmux new-window -t $SESSION -a -n git
+tmux split-window -v -f
+tmux resize-pane -t 1 -D 10
+# tmux new-window -t $SESSION -a -n git
+# tmux select-pane -t 0
+# tmux resize-pane -R 30
+# tmux new-window -t $SESSION -a -n console 
+# tmux resize-pane -R 30
 tmux select-pane -t 0
-tmux resize-pane -R 30
-tmux new-window -t $SESSION -a -n console 
-tmux resize-pane -R 30
 
 tmux select-window -t $SESSION:0
 tmux -2 attach -t $SESSION

@@ -8,6 +8,8 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'arcticicestudio/nord-vim'
 Plug 'preservim/nerdtree'
+" Plug 'kyazdani42/nvim-web-devicons' " for file icons
+" Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -20,10 +22,13 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make' }
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
+
+Plug 'vim-ruby/vim-ruby'
 
 " initialize plugin system
 call plug#end()
@@ -40,17 +45,30 @@ lua require('bulletbill')
 " autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
 
 let NERDTreeShowHidden=1
-
 let g:airline_powerline_fonts = 1
 
 " User Customizations
 syntax on
-colorscheme nord
+colorscheme nord 
+
+
+set splitright
 
 " map leader
 let g:mapleader = ','
 
+" open .vimrc in a split quickly
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+
+" reload .vimrc to apply changes without reset
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
 nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <leader>r :NERDTreeFind<CR>
+" nnoremap <leader>n :NvimTreeFocus<CR>
+
+" Makes undo like <Command>+z
+nmap <leader>z :u<CR>
 
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -62,7 +80,7 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 imap jj <Esc>
 
 " Sort words in a line - https://stackoverflow.com/a/1329899
-:vnoremap <F2> d:execute 'normal a' . join(sort(split(getreg('"'))), ' ')<CR>
+vnoremap <F2> d:execute 'normal a' . join(sort(split(getreg('"'))), ' ')<CR>
 
 
 set nocompatible            " disable compatibility to old-time vi
@@ -79,6 +97,11 @@ set shiftwidth=2
 set softtabstop=2
 set autoindent    
 set smartindent
+set foldmethod=syntax
+
+" display tabs and carriage returns
+set list 
+set listchars=tab:▸\ ,eol:¬
 
 " Save undo history
 set undofile
