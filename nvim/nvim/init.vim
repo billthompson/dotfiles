@@ -29,6 +29,8 @@ Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
 
 Plug 'vim-ruby/vim-ruby'
+Plug 'rodjek/vim-puppet'
+Plug 'noprompt/vim-yardoc'
 
 " initialize plugin system
 call plug#end()
@@ -97,7 +99,9 @@ set shiftwidth=2
 set softtabstop=2
 set autoindent    
 set smartindent
+set foldlevel=20
 set foldmethod=syntax
+set foldexpr=nvim_treesitter#foldexpr()
 
 " display tabs and carriage returns
 set list 
