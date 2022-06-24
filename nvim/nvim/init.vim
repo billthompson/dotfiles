@@ -2,16 +2,25 @@
 " :nnoremap
 " remap insert mode
 " :inoremap
-
+" 
+" @see https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
+"
 " specify directory for plugins
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'arcticicestudio/nord-vim'
 Plug 'preservim/nerdtree'
-" Plug 'kyazdani42/nvim-web-devicons' " for file icons
-" Plug 'kyazdani42/nvim-tree.lua'
+Plug 'mortonfox/nerdtree-clip'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+"Plug 'saadparwaiz1/cmp_luasnip'
+"Plug 'L3MON4D3/LuaSnip'
+"Plug 'rafamadriz/friendly-snippets'
 
 " Telescope requires plenary to function
 Plug 'nvim-lua/plenary.nvim'
@@ -31,6 +40,9 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'vim-ruby/vim-ruby'
 Plug 'rodjek/vim-puppet'
 Plug 'noprompt/vim-yardoc'
+
+Plug 'vim-test/vim-test'
+Plug 'github/copilot.vim'
 
 " initialize plugin system
 call plug#end()
@@ -56,9 +68,6 @@ colorscheme nord
 
 set splitright
 
-" map leader
-let g:mapleader = ','
-
 " open .vimrc in a split quickly
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
@@ -78,12 +87,43 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
+" RSpec
+let test#strategy = "neovim"
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+
 " Get out of insert mode more easily
 imap jj <Esc>
+" Shift + Enter will end a block and put cursor inside body
+if !exists( "*RubyEndToken" )
+
+  function RubyEndToken()
+    let current_line = getline( '.' )
+    let braces_at_end = '{\s*\(|\(,\|\s\|\w\)*|\s*\)\?$'
+    let stuff_without_do = '^\s*\(class\|if\|unless\|begin\|case\|for\|module\|while\|until\|def\)'
+      let with_do = 'do\s*\(|\(,\|\s\|\w\)*|\s*\)\?$'
+
+      if match(current_line, braces_at_end) >= 0
+        return "\<CR>}\<C-O>O"
+      elseif match(current_line, stuff_without_do) >= 0
+        return "\<CR>end\<C-O>O"
+      elseif match(current_line, with_do) >= 0
+        return "\<CR>end\<C-O>O"
+      else
+        return "\<CR>"
+      endif
+    endfunction
+
+endif
+
+imap <buffer> <CR> <C-R>=RubyEndToken()<CR>
 
 " Sort words in a line - https://stackoverflow.com/a/1329899
 vnoremap <F2> d:execute 'normal a' . join(sort(split(getreg('"'))), ' ')<CR>
 
+
+" Clear search highlighting when pressing ESC
+"nnoremap <esc> :noh<return><esc>
 
 set nocompatible            " disable compatibility to old-time vi
 set showmatch               " show matching brackets.
@@ -100,7 +140,7 @@ set softtabstop=2
 set autoindent    
 set smartindent
 set foldlevel=20
-set foldmethod=syntax
+set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 
 " display tabs and carriage returns

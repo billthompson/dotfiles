@@ -22,6 +22,20 @@ alias blb="./bcloud clusters list --all | grep BUILDING"
 alias brn="./bcloud running --format '{{.Names}}' | sort | grep -Ev 'connect-proxy|nomad_init'"
 alias buc="./bcloud clusters list --all | awk '\$8 ~ /^-/' | sort -k 3"
 alias watch_clusters="watch -n 30 './bcloud clusters list --all | grep BUILDING | wc -l | xargs -I % say \"% clusters building\"'"
+function wbc() {
+  watch -n 30 './bcloud clusters list --all | grep "${1}" | grep BUILDING | wc -l | xargs | grep -q -e "0" && say "cluster is ready!"'
+}
+
+# Filter bcapp logs to make finding errors a bit easier
+function filteredBcappLogs {
+  searchTermsRegex="(error|ERROR|bigcommerce_app|exception|EXCEPTION|fatal|FATAL)"
+  filterTermsRegex="(debug|DEBUG|consul|envoy|was deleted|MemoryUsage|Remove store|Twig|bigpaypay|ListEnabledProviderSettings|K2Client|IndexDocumentsJob|Wepay|AppRegistryService|MemoryFilesystemIndexer|WARNING|SendFactsJob|StoreManagement|fornax|inbound event|terminate api|message to topic|Successfully bootstrapped|Action: Theme A|OriginalImagesMigrator)"
+  ./bcloud bcapp logs | grep -E $searchTermsRegex | grep -vE $filterTermsRegex
+}
+
+function create_big_vm {
+  ./bcloud clusters create --cdvm-machine-type n1-highmem-8
+}
 
 # Bundler Aliases
 alias bx="bundle exec"
@@ -106,3 +120,14 @@ function force_nuke() {
 function k_context() {
   kubectl config use-context "gke_bc-cloud-vm-infra-${1}_us-central1-f_cloud-vm-infrastructure"
 }
+
+# gcloud aliases
+function cluster_link() {
+  echo "https://console.cloud.google.com/compute/instancesDetail/zones/us-central1-f/instances/$@-cloud-dev-cdvm?project=bc-cloud-vm"
+}
+
+function current_cluster_link() {
+  FUNCS=$(functions cluster_link); ./bcloud clusters list --detailed | jq -r '.[0].name' | xargs -I% zsh -c "eval $FUNCS; cluster_link %"
+}
+
+
