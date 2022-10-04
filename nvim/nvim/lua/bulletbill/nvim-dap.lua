@@ -1,0 +1,2 @@
+require('dap-ruby').setup()
+

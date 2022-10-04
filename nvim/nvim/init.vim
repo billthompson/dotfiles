@@ -14,6 +14,7 @@ Plug 'mortonfox/nerdtree-clip'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'p00f/nvim-ts-rainbow'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
@@ -36,13 +37,24 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
+Plug 'junegunn/vim-easy-align'
+Plug 'folke/which-key.nvim'
+
+Plug 'mfussenegger/nvim-dap'
+Plug 'suketa/nvim-dap-ruby'
 
 Plug 'vim-ruby/vim-ruby'
 Plug 'rodjek/vim-puppet'
 Plug 'noprompt/vim-yardoc'
 
-Plug 'vim-test/vim-test'
+"Plug 'vim-test/vim-test'
+Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'nvim-neotest/neotest'
+Plug 'olimorris/neotest-rspec'
+
 Plug 'github/copilot.vim'
+
+Plug 'ludovicchabant/vim-gutentags'
 
 " initialize plugin system
 call plug#end()
@@ -82,15 +94,15 @@ nnoremap <leader>r :NERDTreeFind<CR>
 nmap <leader>z :u<CR>
 
 " Telescope
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+"nnoremap <leader>ff <cmd>Telescope find_files<cr>
+"nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+"nnoremap <leader>fb <cmd>Telescope buffers<cr>
+"nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-" RSpec
-let test#strategy = "neovim"
-nmap <silent> <leader>t :TestNearest<CR>
-nmap <silent> <leader>T :TestFile<CR>
+" vim-test RSpec
+"let test#strategy = "neovim"
+"nmap <silent> <leader>t :TestNearest<CR>
+"nmap <silent> <leader>T :TestFile<CR>
 
 " Get out of insert mode more easily
 imap jj <Esc>

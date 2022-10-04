@@ -13,3 +13,14 @@ Repo structure taken from https://developer.atlassian.com/blog/2016/02/best-way-
 1. Setup tmux
   1. `stow -t ~ tmux`
 
+# Add Timestamp to ZSH Prompt
+
+```
+RPROMPT='[%D{%f/%m/%y} | %D{%L:%M:%S %p}]'
+
+TMOUT=1
+
+TRAPALRM() {
+    zle reset-prompt
+}
+```

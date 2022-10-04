@@ -37,6 +37,10 @@ function create_big_vm {
   ./bcloud clusters create --cdvm-machine-type n1-highmem-8
 }
 
+function bc_list_services {
+  gcloud container images list --repository=gcr.io/bigcommerce-common/apps | awk '{ gsub("(.+\/apps\/)","", $1); print $1 }'
+}
+
 # Bundler Aliases
 alias bx="bundle exec"
 alias bxr="bundle exec rake"
@@ -130,4 +134,18 @@ function current_cluster_link() {
   FUNCS=$(functions cluster_link); ./bcloud clusters list --detailed | jq -r '.[0].name' | xargs -I% zsh -c "eval $FUNCS; cluster_link %"
 }
 
+listening() {
+    if [ $# -eq 0 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P
+    elif [ $# -eq 1 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color $1
+    else
+        echo "Usage: listening [pattern]"
+    fi
+}
 
+function nomad_set_context() {
+  ip=$(ruby -rjson -ryaml -e "puts JSON.generate(YAML.load_file(File.join(Dir.home, '.bcloud', 'config.bc-cloud-vm.yml')))" | jq -r '.current_cluster.cdvm_ip')
+  export NOMAD_TLS_SERVER_NAME="127.0.0.1"
+  export NOMAD_ADDR="https://${ip}:4646"
+}
