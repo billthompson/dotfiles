@@ -47,6 +47,8 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'rodjek/vim-puppet'
 Plug 'noprompt/vim-yardoc'
 
+Plug 'google/vim-jsonnet'
+
 "Plug 'vim-test/vim-test'
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'nvim-neotest/neotest'
