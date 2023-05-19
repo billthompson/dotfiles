@@ -10,9 +10,10 @@ vim.g.maplocalleader = ' '
 --end
 require('bulletbill/which-key')
 
+require('bulletbill/mason')
 require('bulletbill/nvim-treesitter')
 require('bulletbill/telescope')
-require('bulletbill/nvim-lsp')
 require('bulletbill/nvim-dap')
 require('bulletbill/nvim-neotest')
+require('bulletbill/obsidian')
 

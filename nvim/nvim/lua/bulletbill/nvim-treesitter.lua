@@ -1,7 +1,8 @@
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true,
     disable = {},
+    additional_vim_regex_highlighting = { "markdown" },
   },
   indent = {
     enable = false,
@@ -18,6 +19,7 @@ require'nvim-treesitter.configs'.setup {
     "json",
     "make",
     "markdown",
+    "markdown_inline",
     "php",
     "ruby",
     "rust",

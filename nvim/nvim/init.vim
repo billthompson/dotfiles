@@ -15,13 +15,14 @@ Plug 'mortonfox/nerdtree-clip'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'p00f/nvim-ts-rainbow'
-Plug 'williamboman/nvim-lsp-installer'
+" :MasonUpdate updates registry contents
+Plug 'williamboman/mason.nvim', { 'do': ':MasonUpdate' }
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'neovim/nvim-lspconfig'
+
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
-"Plug 'saadparwaiz1/cmp_luasnip'
-"Plug 'L3MON4D3/LuaSnip'
-"Plug 'rafamadriz/friendly-snippets'
 
 " Telescope requires plenary to function
 Plug 'nvim-lua/plenary.nvim'
@@ -57,6 +58,8 @@ Plug 'olimorris/neotest-rspec'
 Plug 'github/copilot.vim'
 
 Plug 'ludovicchabant/vim-gutentags'
+
+Plug 'epwalsh/obsidian.nvim'
 
 " initialize plugin system
 call plug#end()

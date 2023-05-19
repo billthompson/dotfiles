@@ -1,5 +1,7 @@
 alias config='/usr/bin/git --git-dir=$HOME/.files/.git --work-tree=$HOME/.files'
 
+alias nvim="nvim +NERDTree"
+
 alias ll="ls -la"
 
 alias scratch_dir="~/Library/Mobile\ Documents/com~apple~CloudDocs/Rubymine/scratches"
@@ -12,6 +14,9 @@ alias k="kubectl"
 complete -F __start_kubectl k
 
 alias circle="CIRCLECI_CLI_SKIP_UPDATE_CHECK=1 circleci"
+
+
+alias mux="tmuxinator"
 
 # bcloud Aliases
 # List preprovisioned clusters
@@ -154,7 +159,9 @@ function nomad_set_context() {
 ####################################################################################
 # BEGIN bcloud context switching
 ####################################################################################
-source ~/.bcloud.completion.zsh
+if [[ -f ~/.bcloud.completion.sh ]] ; then
+  source ~/.bcloud.completion.zsh
+fi
 
 CLOUD_DEV_VM_DIR="$HOME/Projects/cloud-dev-vm"
 
