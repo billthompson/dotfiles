@@ -14,6 +14,10 @@
 
   1. `stow -t ~ scm_breeze -v`
 
+### ZSH
+
+  1. `stow -t ~ zsh -v`
+
 ### Neovim
 
 Choose either classic or lazy.

@@ -1,0 +1,33 @@
+# Homebrew
+export HOMEBREW_PREFIX="/opt/homebrew";
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
+export HOMEBREW_REPOSITORY="/opt/homebrew";
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
+export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
+export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+
+# https://github.com/keybase/keybase-issues/issues/2798
+export GPG_TTY=$(tty)
+
+# Nord dir_colors
+PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+# https://github.com/nordtheme/dircolors/issues/7
+test -e ~/.dir_colors && \
+     eval `gdircolors -b ~/.dir_colors`
+
+# Aliases
+source /Users/billiam/.aliases
+
+# ASDF - https://asdf-vm.com/guide/getting-started.html
+. "$HOME/.asdf/asdf.sh"
+# Manual Completion
+# append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)
+# initialise completions with ZSH's compinit
+autoload -Uz compinit && compinit
+
+
+# Starship Prompt
+eval "$(starship init zsh)"
+
+[ -s "/Users/billiam/.scm_breeze/scm_breeze.sh" ] && source "/Users/billiam/.scm_breeze/scm_breeze.sh"
