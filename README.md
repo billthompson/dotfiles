@@ -35,6 +35,10 @@ Choose either classic or lazy.
 
   1. `stow -t ~ tmux`
 
+### GPG
+
+  1. `stow -t ~ gnupg -v`
+
 ### Add Timestamp to ZSH Prompt
 
 ```bash
