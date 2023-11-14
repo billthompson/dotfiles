@@ -10,6 +10,10 @@
   1. `echo "source $HOME/.aliases" > $HOME/.zshrc`
   1. `source ~/.zshrc`
 
+### SCM Breeze
+
+  1. `stow -t ~ scm_breeze -v`
+
 ### Neovim
 
 Choose either classic or lazy.
