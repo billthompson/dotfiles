@@ -16,7 +16,7 @@ test -e ~/.dir_colors && \
      eval `gdircolors -b ~/.dir_colors`
 
 # Aliases
-source /Users/billiam/.aliases
+source "$HOME/.aliases"
 
 # ASDF - https://asdf-vm.com/guide/getting-started.html
 . "$HOME/.asdf/asdf.sh"
@@ -30,4 +30,4 @@ autoload -Uz compinit && compinit
 # Starship Prompt
 eval "$(starship init zsh)"
 
-[ -s "/Users/billiam/.scm_breeze/scm_breeze.sh" ] && source "/Users/billiam/.scm_breeze/scm_breeze.sh"
+[ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
