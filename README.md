@@ -12,7 +12,7 @@
 
 ### Neovim
 
-Choose either class or lazy.
+Choose either classic or lazy.
 
 #### Classic
 
