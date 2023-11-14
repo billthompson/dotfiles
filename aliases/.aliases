@@ -1,60 +1,14 @@
-alias config='/usr/bin/git --git-dir=$HOME/.files/.git --work-tree=$HOME/.files'
 
-alias nvim="nvim +Neotree"
-
-alias ls="ls --color=always"
-alias ll="ls -la"
-
-alias scratch_dir="~/Library/Mobile\ Documents/com~apple~CloudDocs/Rubymine/scratches"
-
-##
-# Kubernetes
-# https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
-#
-alias k="kubectl"
-# complete -F __start_kubectl k
-
-alias circle="CIRCLECI_CLI_SKIP_UPDATE_CHECK=1 circleci"
-
-
-alias mux="tmuxinator"
-
-# bcloud Aliases
-# List preprovisioned clusters
-alias blp='./bcloud clusters list --all | grep RUNNING | awk '\''$NF == "-"'\'''
-# List building clusters
-alias blb="./bcloud clusters list --all | grep BUILDING"
-# bcloud running - names only
-alias brn="./bcloud running --format '{{.Names}}' | sort | grep -Ev 'connect-proxy|nomad_init'"
-alias buc="./bcloud clusters list --all | awk '\$8 ~ /^-/' | sort -k 3"
-alias watch_clusters="watch -n 30 './bcloud clusters list --all | grep BUILDING | wc -l | xargs -I % say \"% clusters building\"'"
-function wbc() {
-  watch -n 30 './bcloud clusters list --all | grep "${1}" | grep BUILDING | wc -l | xargs | grep -q -e "0" && say "cluster is ready!"'
-}
-
-# Filter bcapp logs to make finding errors a bit easier
-function filteredBcappLogs {
-  searchTermsRegex="(error|ERROR|bigcommerce_app|exception|EXCEPTION|fatal|FATAL)"
-  filterTermsRegex="(debug|DEBUG|consul|envoy|was deleted|MemoryUsage|Remove store|Twig|bigpaypay|ListEnabledProviderSettings|K2Client|IndexDocumentsJob|Wepay|AppRegistryService|MemoryFilesystemIndexer|WARNING|SendFactsJob|StoreManagement|fornax|inbound event|terminate api|message to topic|Successfully bootstrapped|Action: Theme A|OriginalImagesMigrator)"
-  ./bcloud bcapp logs | grep -E $searchTermsRegex | grep -vE $filterTermsRegex
-}
-
-function create_big_vm {
-  ./bcloud clusters create --cdvm-machine-type n1-highmem-8
-}
-
-function bc_list_services {
-  gcloud container images list --repository=gcr.io/bigcommerce-common/apps | awk '{ gsub("(.+\/apps\/)","", $1); print $1 }'
-}
-
+#######################################
 # Bundler Aliases
+#######################################
 alias bx="bundle exec"
 alias bxr="bundle exec rake"
 alias bxc="bundle exec rails c"
-alias b1="bundle _1.17.3_"
-alias bx1="bundle _1.17.3_ exec"
 
+#######################################
 # Docker Aliases
+#######################################
 alias dc="docker-compose"
 alias dm="docker-machine"
 # Stop all containers
@@ -66,81 +20,43 @@ alias drs="docker ps -aq --no-trunc -f status=exited | xargs docker rm"
 # Remove dangling containers
 alias drd="docker images -q --filter dangling=true | xargs docker rmi"
 
-
+#######################################
 # Git Aliases
+#######################################
 alias gl='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 alias gcmsg="git commit -m"
 alias glb="script -q /dev/null git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))' < /dev/null | head"
 alias grbic='GIT_EDITOR="code --wait" grbi'
 
-# Misc Aliases
-alias allergies="lynx -dump http://scripts.kxan.com/wp_embeds/weather/allergy/allergy_output_v2.html"
-alias weather="curl http://wttr.in/aus && curl http://wttr.in/cedar_park"
+#######################################
+# Kubernetes
+# https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
+#######################################
+alias k="kubectl"
+# complete -F __start_kubectl k
 
-# TSH
-alias tsh-login-int="tsh-login \"integration\""
-alias tsh-login-stg="tsh-login \"staging\""
+alias ls="ls --color=always"
+alias ll="ls -la"
 
-function tsh-login() {
-  tsh login --proxy=teleport.${1}.zone --auth=OktaSAML
-}
+alias mux="tmuxinator"
+alias nvim="nvim +Neotree"
 
-function tsh-connect() {
-  local node=$(tsh ls | awk 'NR==3{print $1; exit}')
-  tsh ssh -t container-jump@${=node}
-}  
+alias weather="curl http://wttr.in/leander"
 
-function update_container() {
-  echo "Updating ${1}"
-  ./bcloud stop ${1} && ./bcloud pull ${1} && ./bcloud start ${1}
-}
+#######################################
+# Functions
+#######################################
 
-# update_containers auth bmp theme-registry storefront customer channel-service bigpay
-function update_containers() {
-  for var in "$@"
-  do
-    update_container "$var"
-  done
-}
-
-function reset_containers() {
-  for svc in "$@"
-  do
-    ./bcloud remove "$svc"; ./bcloud pull "$svc"; ./bcloud start "$svc"
-  done
-}
-
-function create_cloud_scratches_link() {
-  ln -s ~/Library/Mobile\ Documents/com~apple~CloudDocs/Rubymine/scratches cloud-scratches
-}
-
-function check_service_health() {
-  for cluster in "$@"
-  do 
-    echo "## $cluster "
-    ./bcloud ssh cdvm --cluster="$cluster" < ./tmp/health_check.sh 
-    echo "\n\n"
-  done
-}
-
-function force_nuke() {
-  yes 'Burn it all down!' | ./bcloud clusters nuke $1
-}
-
+# Set the kubectl context.
 function k_context() {
-  kubectl config use-context "gke_bc-cloud-vm-infra-${1}_us-central1-f_cloud-vm-infrastructure"
+  local ctx_pre="gke_bc-cloud-vm-infra-"
+  local ctx_post="_us-central1-f_cloud-vm-infrastructure"
+  kubectl config use-context "${ctx_pre}${1}${ctx_post}"
 }
 
-# gcloud aliases
-function cluster_link() {
-  echo "https://console.cloud.google.com/compute/instancesDetail/zones/us-central1-f/instances/$@-cloud-dev-cdvm?project=bc-cloud-vm"
-}
 
-function current_cluster_link() {
-  FUNCS=$(functions cluster_link); ./bcloud clusters list --detailed | jq -r '.[0].name' | xargs -I% zsh -c "eval $FUNCS; cluster_link %"
-}
-
-listening() {
+# What is listening on the given ports.
+function listening() {
     if [ $# -eq 0 ]; then
         sudo lsof -iTCP -sTCP:LISTEN -n -P
     elif [ $# -eq 1 ]; then
@@ -149,11 +65,4 @@ listening() {
         echo "Usage: listening [pattern]"
     fi
 }
-
-function nomad_set_context() {
-  ip=$(ruby -rjson -ryaml -e "puts JSON.generate(YAML.load_file(File.join(Dir.home, '.bcloud', 'config.bc-cloud-vm.yml')))" | jq -r '.current_cluster.cdvm_ip')
-  export NOMAD_TLS_SERVER_NAME="127.0.0.1"
-  export NOMAD_ADDR="https://${ip}:4646"
-}
-
 
