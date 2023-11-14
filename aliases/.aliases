@@ -1,7 +1,8 @@
 alias config='/usr/bin/git --git-dir=$HOME/.files/.git --work-tree=$HOME/.files'
 
-alias nvim="nvim +NERDTree"
+alias nvim="nvim +Neotree"
 
+alias ls="ls --color=always"
 alias ll="ls -la"
 
 alias scratch_dir="~/Library/Mobile\ Documents/com~apple~CloudDocs/Rubymine/scratches"
@@ -11,7 +12,7 @@ alias scratch_dir="~/Library/Mobile\ Documents/com~apple~CloudDocs/Rubymine/scra
 # https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
 #
 alias k="kubectl"
-complete -F __start_kubectl k
+# complete -F __start_kubectl k
 
 alias circle="CIRCLECI_CLI_SKIP_UPDATE_CHECK=1 circleci"
 
@@ -156,91 +157,3 @@ function nomad_set_context() {
 }
 
 
-####################################################################################
-# BEGIN bcloud context switching
-####################################################################################
-if [[ -f ~/.bcloud.completion.sh ]] ; then
-  source ~/.bcloud.completion.zsh
-fi
-
-CLOUD_DEV_VM_DIR="$HOME/Projects/cloud-dev-vm"
-
-BCLOUD_CONFIG_DIR="$HOME/.bcloud"
-BCLOUD_MAIN_CONFIG="$BCLOUD_CONFIG_DIR/config.bc-cloud-vm.yml"
-
-function bcloud-env-config-filename() {
-    local env=$1
-
-    if [[ "$env" == 'production' || "$env" == 'prod' ]]; then
-        echo "config.bc-cloud-vm.production.yml"
-    elif [[ "$env" == 'integration' || "$env" == 'int' ]]; then
-        echo "config.bc-cloud-vm.integration.yml"
-    elif [[ -z "$env" ]]; then
-        echo "$0: must specify environment (int or prod)" >&2
-        return 1
-    else
-        echo "unrecognized environment: $env" >&2
-        return 1
-    fi
-}
-
-function bcloud-set-env() {
-    local env=$1
-
-    if [[ -L "$BCLOUD_MAIN_CONFIG" ]]; then
-        rm -f "$BCLOUD_MAIN_CONFIG"
-    elif [[ -e "$BCLOUD_MAIN_CONFIG" ]]; then
-        echo "bcloud config ($BCLOUD_MAIN_CONFIG) is not a symlink; bailing out" >&2
-        return 1
-    fi
-
-    local env_cfg=$(bcloud-env-config-filename "$env")
-    ln -s "$env_cfg" "$BCLOUD_MAIN_CONFIG"
-    echo "activated bcloud environment $(bcloud-get-env)" >&2
-}
-
-function bcloud-get-env() {
-    if ! [[ -L "$BCLOUD_MAIN_CONFIG" ]]; then
-        echo "configure $BCLOUD_MAIN_CONFIG as a symlink pointing to env-specific config" >&2
-        return 1
-    fi
-
-    local bcloud_env
-    local bcloud_cfg_target=$(readlink "$BCLOUD_MAIN_CONFIG")
-    if [[ "$bcloud_cfg_target" =~ 'config\.bc-cloud-vm\.([a-z0-9]+).yml' ]]; then
-        echo "${match[1]}"
-        return 0
-    else
-        echo "could not determine bcloud environment from target $bcloud_cfg_target" >&2
-        return 1
-    fi
-}
-
-function bcloud() {
-    local bcloud_env
-    bcloud_env=$(bcloud-get-env)
-    if [[ "$?" != 0 ]]; then
-        return 1
-    fi
-    if [[ "$bcloud_env" == 'integration' ]]; then
-        MAESTRO_GRPC_HOST='maestro-grpc.dev-int.bigcommerce.net'
-    elif [[ "$bcloud_env" == 'production' ]]; then
-        MAESTRO_GRPC_HOST='maestro-grpc.dev.bigcommerce.net'
-    else
-        echo "unrecognized bcloud environment: $bcloud_env" >&2
-        return 1
-    fi
-	if [[ "$PRINT_BCLOUD_ENV" != 0 ]]; then
-		echo "bcloud env: $bcloud_env" >&2
-	fi
-    local rc
-    pushd "$CLOUD_DEV_VM_DIR" &>/dev/null
-    MAESTRO_GRPC_HOST="$MAESTRO_GRPC_HOST" ./bcloud "$@"
-    rc="$?"
-    popd &>/dev/null
-    return "$rc"
-}
-
-####################################################################################
-# END bcloud context switching
-####################################################################################
