@@ -3,20 +3,26 @@
 ## Setup
 
 1. Install [gnu stow](https://www.gnu.org/software/stow/) - `brew install stow`
+2. Clone the repo - `git clone --recurse-submodules git@github.com:billthompson/dotfiles.git`
+
+### ZSH
+
+  1. `stow -t ~ zsh -v`
+
+### Tmux
+
+  1. `stow -t ~ tmux`
 
 ### Aliases
 
   1. `stow -t ~ aliases -v`
-  1. `echo "source $HOME/.aliases" > $HOME/.zshrc`
   1. `source ~/.zshrc`
 
 ### SCM Breeze
 
   1. `stow -t ~ scm_breeze -v`
-
-### ZSH
-
-  1. `stow -t ~ zsh -v`
+  1. `~/.scm_breeze/install.sh`
+  1. `source ~/.zshrc`
 
 ### Neovim
 
@@ -31,9 +37,6 @@ Choose either classic or lazy.
 
   1. `stow --no-folding -v --restow -t ~/.config lazyvim`
 
-### Tmux
-
-  1. `stow -t ~ tmux`
 
 ### GPG
 
