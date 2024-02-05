@@ -20,7 +20,7 @@ fi
 export GPG_TTY=$(tty)
 
 # Nord dir_colors
-PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
 # https://github.com/nordtheme/dircolors/issues/7
 test -e ~/.dir_colors && \
      eval `gdircolors -b ~/.dir_colors`
@@ -89,7 +89,7 @@ if ! zgenom saved; then
     zgenom compile "$HOME/.zshrc"
 fi
 
-export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+export PATH="${HOMEBREW_PREFIX}/opt/postgresql@16/bin:$PATH"
 
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
