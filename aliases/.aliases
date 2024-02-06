@@ -7,7 +7,7 @@
 # List the diffs, find the one marked as current (*), remove columns that cause
 # space parsing issues, grab the column with the diff ("D1234:"),
 # remove the trailing ":", remove color codes.
-alias adc="arc list | awk '\$1 ~ /\*/' | sed -E 's/Accepted|Needs Review//gi' | awk '{ print \$3 }' | tr -d ':' | sed -r 's/[[:cntrl:]]\[[0-9]{1,3}m//g'"
+alias adc="arc list | awk '\$1 ~ /\*/' | sed -E 's/Accepted|Needs Review|Changes Planned//gi' | awk '{ print \$3 }' | tr -d ':' | sed -r 's/[[:cntrl:]]\[[0-9]{1,3}m//g'"
 
 #######################################
 # Bundler Aliases
