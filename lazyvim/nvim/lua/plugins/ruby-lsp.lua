@@ -1,0 +1,3 @@
+-- require("lspconfig").ruby_ls.setup({
+--   cmd = { "/opt/ruby3.1/bin/ruby-lsp" },
+-- })
