@@ -45,6 +45,21 @@ alias grbic='GIT_EDITOR="code --wait" grbi'
 alias k="kubectl"
 # complete -F __start_kubectl k
 
+##
+# Process Kill Listening
+#
+# Kill processes listening on the given port.
+#
+# Usage:
+#   pkl 5000
+#
+# @param $1 port
+#
+function pkl() {
+  local port=$1
+  listening "$port" | awk '{ print $2 }' | xargs -i% kill -9 %
+}
+
 alias ls="ls --color=always"
 alias ll="ls -la"
 
