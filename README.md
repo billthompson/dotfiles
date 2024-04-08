@@ -13,6 +13,11 @@
 
   1. `stow -t ~ tmux`
 
+### Tmuxinator
+
+  1. `stow -t ~/.config tmuxinator`
+
+
 ### Aliases
 
   1. `stow -t ~ aliases -v`
