@@ -5,12 +5,32 @@ root: ~/Projects
 
 windows:
   - tracking:
-      layout: 4254,330x95,0,0[330x67,0,0,0,330x27,0,68,2 # main-horizontal
+      root: ~/Projects/tracking
+      layout: main-horizontal
       panes:
         - nvim
         -  # empty
   - trackingdata:
-      layout: 4254,330x95,0,0[330x67,0,0,0,330x27,0,68,2 # main-horizontal
+      root: ~/Projects/trackingdata
+      layout: main-horizontal
+      panes:
+        - nvim
+        -  # empty
+  - easy_post:
+      root: ~/Projects/easy_post
+      layout: main-horizontal
+      panes:
+        - nvim
+        -  # empty
+  - users:
+      root: ~/Projects/users
+      layout: main-horizontal
+      panes:
+        - nvim
+        -  # empty
+  - addresses:
+      root: ~/Projects/addresses
+      layout: main-horizontal
       panes:
         - nvim
         -  # empty
