@@ -94,13 +94,11 @@ function listening() {
 # Will execute the command while capturing its stdout/stderr
 # in a tmp file as well as its timing info.
 function cmdv() {
-  set -x
   CMD="$@"
   HOST=$(hostname | cut -d '.' -f1)
   INVOKE_TS=$(date +"%Y%m%d-%H%M%S")
   OUTFILE="/tmp/$HOST-$(echo $CMD | sed -e 's/[^A-Za-z0-9._-]/_/g')-$INVOKE_TS.txt"
   echo "Writing to $OUTFILE"
   { time "$@" > "$OUTFILE" 2>&1; } 2>"$OUTFILE"
-  set +x
 }
 
