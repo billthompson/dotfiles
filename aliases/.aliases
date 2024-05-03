@@ -99,6 +99,6 @@ function cmdv() {
   INVOKE_TS=$(date +"%Y%m%d-%H%M%S")
   OUTFILE="/tmp/$HOST-$(echo $CMD | sed -e 's/[^A-Za-z0-9._-]/_/g')-$INVOKE_TS.txt"
   echo "Writing to $OUTFILE"
-  { time "$@" > "$OUTFILE" 2>&1; } 2>"$OUTFILE"
+  { time "$@" 2>&1 | tee "$OUTFILE";  } 2>"$OUTFILE"
 }
 
