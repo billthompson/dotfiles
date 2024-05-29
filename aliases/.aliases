@@ -108,3 +108,16 @@ function cmdv() {
   echo "Output saved to: $OUTFILE"
 }
 
+##
+# Build a filename with the current timestmap.
+#
+# $filename test log
+# $ => test-20240529T1348.log
+#
+function filename() {
+  local base="$1"
+  local ext="$2"
+  timestamp="$(date +%Y%m%dT%H%M)"
+  echo "${base}-${timestamp}.${ext}"
+}
+
