@@ -9,6 +9,10 @@
 
   1. `stow -t ~ zsh -v`
 
+### Bash
+
+  1. `stow -t ~ bash -v`
+
 ### Tmux
 
   1. `stow -t ~ tmux`
@@ -16,7 +20,6 @@
 ### Tmuxinator
 
   1. `stow -t ~/.config tmuxinator`
-
 
 ### Aliases
 
@@ -41,7 +44,6 @@ Choose either classic or lazy.
 #### Lazy
 
   1. `stow --no-folding -v --restow -t ~/.config lazyvim`
-
 
 ### GPG
 
