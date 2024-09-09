@@ -121,3 +121,10 @@ function filename() {
   echo "${base}-${timestamp}.${ext}"
 }
 
+##
+# Select a random reviewer from the Logistics team.
+#
+function ep_logistiscs_reviewer() {
+  ruby -e "puts %i[asher jake lawrence gomez kostick vegas].sample"
+}
+
