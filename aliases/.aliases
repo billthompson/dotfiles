@@ -63,7 +63,7 @@ alias ls="ls --color=always"
 alias ll="ls -la"
 
 alias mux="tmuxinator"
-alias nvim="nvim +Neotree"
+#alias nvim="nvim +Neotree"
 
 alias weather="curl http://wttr.in/leander"
 
